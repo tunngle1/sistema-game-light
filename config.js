@@ -17,9 +17,10 @@ window.SITE_CONFIG = {
     successMessage: 'Заявка отправлена. Сейчас откроется страница оплаты.'
   },
 
-  /* Оплата — GetPlatinum */
+  /* Оплата — GetPlatinum (статическая ссылка на 2 900 ₽) */
   payment: {
     enabled: true,
+    useApi: false,
     price: 2900,
     currency: '₽',
     label: 'Участие в игре «Система» · 15 июля · Москва',
