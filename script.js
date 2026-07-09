@@ -35,38 +35,20 @@
     var priceNote = document.getElementById('priceLabel');
     var referralPrice = document.getElementById('pricingReferralPrice');
     var modalReferralPrice = document.getElementById('modalReferralPrice');
-    var linkPay = document.getElementById('linkPay');
-    var hasPaymentLink = hasAnyPayment();
     var priceFormatted = formatPrice(payment.price || 0);
     var priceStr = priceFormatted + ' ' + (payment.currency || '₽');
 
     if (referralPrice) referralPrice.textContent = priceStr;
     if (modalReferralPrice) modalReferralPrice.textContent = priceStr;
 
-    if (hasPaymentLink) {
-      if (linkPay) {
-        if (payment.paymentUrl) {
-          linkPay.href = payment.paymentUrl;
-          linkPay.target = '_blank';
-          linkPay.rel = 'noopener';
-        }
-        linkPay.hidden = false;
-      }
-      if (priceEl) priceEl.hidden = false;
-      if (priceNote) priceNote.hidden = false;
-      if (pricingSecure) pricingSecure.hidden = false;
-    }
+    if (priceEl) priceEl.hidden = false;
+    if (priceNote) priceNote.hidden = false;
+    if (pricingSecure) pricingSecure.hidden = false;
 
-    if (!payment.enabled && !hasPaymentLink) {
-      if (priceEl) priceEl.hidden = true;
-      if (priceNote) priceNote.hidden = true;
+    if (!payment.enabled) {
       if (modalPriceTag) modalPriceTag.hidden = true;
-      if (pricingSecure) pricingSecure.hidden = true;
-      if (linkPay) linkPay.hidden = true;
       return;
     }
-
-    if (!payment.enabled) return;
 
     var priceStr = formatPrice(payment.price || 0) + ' ' + (payment.currency || '₽');
 
@@ -308,15 +290,6 @@
       return;
     }
 
-    if (hasAnyPayment() && step2) {
-      var modalPayNote = document.getElementById('modalPayNote');
-      if (modalPayNote) {
-        modalPayNote.textContent = 'После оплаты мы свяжемся с вами в Telegram.';
-      }
-      step2.hidden = false;
-      return;
-    }
-
     if (stepDev) {
       var successTitle = formConfig.successTitle || 'Спасибо!';
       var successMessage = formConfig.successMessage || 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.';
@@ -510,17 +483,6 @@
 
     var ask = document.getElementById('linkAskQuestion');
     if (ask && links.askTelegram) ask.href = links.askTelegram;
-
-    var pay = document.getElementById('linkPay');
-    if (pay && hasAnyPayment()) {
-      pay.addEventListener('click', function (e) {
-        if (!hasApiPayment()) return;
-        e.preventDefault();
-        goToPayment().catch(function () {
-          alert('Сначала оставьте заявку с именем и телефоном, затем нажмите «Оплатить участие».');
-        });
-      });
-    }
 
     var yt = document.getElementById('linkYoutube');
     if (yt && links.youtube) yt.href = links.youtube;

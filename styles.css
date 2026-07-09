@@ -1017,15 +1017,18 @@ ul { list-style: none; }
 
 .pricing__referral p:last-child { margin-bottom: 0; }
 
-.pricing__referral-lead { font-size: var(--fs-md); color: var(--text); }
-
-.pricing__referral-benefit strong {
-  color: var(--blue);
-  font-weight: 700;
-  letter-spacing: 0.02em;
+.pricing__referral-lead {
+  font-size: var(--fs-md);
+  color: var(--text);
+  margin-bottom: 4px;
 }
 
-.pricing__referral-price strong {
+.pricing__referral-lead strong {
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.pricing__referral strong {
   color: var(--blue);
   font-weight: 700;
 }

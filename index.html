@@ -422,12 +422,6 @@
               <li>Личная карта решений и следующих шагов</li>
               <li id="pricingLocation">г. Москва, Волоколамское шоссе, д. 2, Бизнесцентр «Гидропроект»</li>
             </ul>
-            <div class="pricing__referral">
-              <p class="pricing__referral-lead"><strong>Формат 1+1</strong></p>
-              <p>На игру можно прийти вдвоём.</p>
-              <p>Вы покупаете одно участие за <strong id="pricingReferralPrice">2 900 ₽</strong> и приходите вместе с человеком из своего окружения.</p>
-              <p>Берите того, с кем вам важно посмотреть на деньги, решения, отношения, работу и повторяющиеся сценарии не в разговоре, а за игровым столом.</p>
-            </div>
           </div>
           <div class="pricing__action">
             <div class="pricing__price">
@@ -435,11 +429,16 @@
               <span class="pricing__currency" id="currencyDisplay">₽</span>
             </div>
             <p class="pricing__note" id="priceLabel">Участие в игре «Система» · 15 июля · Москва</p>
+            <div class="pricing__referral pricing__referral--action">
+              <p class="pricing__referral-lead"><strong>Формат 1+1</strong></p>
+              <p>На игру можно прийти вдвоём.</p>
+              <p>Вы покупаете одно участие за <strong id="pricingReferralPrice">2 900 ₽</strong> и приходите вместе с человеком из своего окружения.</p>
+              <p>Берите того, с кем вам важно посмотреть на деньги, решения, отношения, работу и повторяющиеся сценарии не в разговоре, а за игровым столом.</p>
+            </div>
             <button class="btn btn--primary btn--lg btn--full" data-modal-open>
               Оставить заявку
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
             </button>
-            <a class="btn btn--outline btn--full" href="https://shkarov-dmitrii.getplatinum.ru/payment/DbPtgtz" target="_blank" rel="noopener" id="linkPay" hidden>Оплатить участие</a>
             <a class="btn btn--outline btn--full" href="https://t.me/Shkarovbis" target="_blank" rel="noopener" id="linkAskQuestion">Задать вопрос</a>
             <p class="pricing__secure">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="1.5"/></svg>
@@ -501,8 +500,11 @@
       <div class="modal__step" id="modalStep1">
         <h3 class="modal__title">Регистрация на игру</h3>
         <p class="modal__subtitle" id="modalSubtitle">«Система» · 15 июля · Москва · 19:00</p>
-        <div class="modal__referral modal__referral--compact">
-          <p><span class="modal__referral-badge">Приведи друга</span> Пригласите человека, которому «Система» будет полезна — участие для вас <strong>бесплатно</strong>. Без рекомендации — <strong id="modalReferralPrice">2 900 ₽</strong>.</p>
+        <div class="modal__referral">
+          <p class="modal__referral-lead"><strong>Формат 1+1</strong></p>
+          <p>На игру можно прийти вдвоём.</p>
+          <p>Вы покупаете одно участие за <strong id="modalReferralPrice">2 900 ₽</strong> и приходите вместе с человеком из своего окружения.</p>
+          <p>Берите того, с кем вам важно посмотреть на деньги, решения, отношения, работу и повторяющиеся сценарии не в разговоре, а за игровым столом.</p>
         </div>
         <form class="modal__form" id="regForm">
           <label class="field"><span>Имя</span><input type="text" name="name" required placeholder="Ваше имя"></label>
