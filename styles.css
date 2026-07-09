@@ -1033,17 +1033,6 @@ ul { list-style: none; }
   font-weight: 700;
 }
 
-.pricing__referral--action {
-  margin: 16px 0 20px;
-  text-align: left;
-  width: 100%;
-}
-
-.pricing__referral--action p {
-  font-size: 13px;
-  line-height: 1.5;
-}
-
 .pricing__action {
   text-align: center;
   padding: 36px 28px;
@@ -1053,8 +1042,6 @@ ul { list-style: none; }
 }
 
 .pricing__action #linkAskQuestion { margin-top: 12px; }
-
-.pricing__action #linkPay { margin-top: 12px; }
 
 .pricing__pay-note {
   font-size: var(--fs-xs);
