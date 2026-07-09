@@ -376,6 +376,14 @@
         savedFormData.dealId = result.data.dealId;
         window.location.href = result.data.formUrl;
         return true;
+      })
+      .catch(function (err) {
+        var staticUrl = buildPaymentUrl();
+        if (staticUrl) {
+          window.location.href = staticUrl;
+          return true;
+        }
+        throw err;
       });
   }
 

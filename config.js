@@ -14,12 +14,12 @@ window.SITE_CONFIG = {
   form: {
     endpoint: 'https://sistema-game-bot.vercel.app/api/register',
     successTitle: 'Спасибо!',
-    successMessage: 'Заявка отправлена. Мы свяжемся с вами в Telegram в ближайшее время и подтвердим участие.'
+    successMessage: 'Заявка отправлена. Сейчас откроется страница оплаты.'
   },
 
   /* Оплата — GetPlatinum */
   payment: {
-    enabled: false,
+    enabled: true,
     price: 2900,
     currency: '₽',
     label: 'Участие в игре «Система» · 15 июля · Москва',
