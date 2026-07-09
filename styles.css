@@ -1267,23 +1267,21 @@ ul { list-style: none; }
 .modal__referral p {
   font-size: 12px;
   color: var(--text-muted);
-  line-height: 1.45;
-  margin: 0;
+  line-height: 1.5;
+  margin-bottom: 8px;
 }
 
-.modal__referral-badge {
-  display: inline-block;
-  margin-right: 6px;
-  padding: 2px 8px;
-  border-radius: var(--radius-pill);
-  background: rgba(59, 130, 246, 0.12);
-  border: 1px solid var(--border-light);
-  font-size: 11px;
-  font-weight: 700;
+.modal__referral p:last-child { margin-bottom: 0; }
+
+.modal__referral-lead {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.modal__referral-lead strong {
   color: var(--blue);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  vertical-align: middle;
+  font-weight: 700;
 }
 
 .modal__referral strong {
