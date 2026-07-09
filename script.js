@@ -36,7 +36,6 @@
     var referralPrice = document.getElementById('pricingReferralPrice');
     var modalReferralPrice = document.getElementById('modalReferralPrice');
     var linkPay = document.getElementById('linkPay');
-    var pricingPayNote = document.getElementById('pricingPayNote');
     var hasPaymentLink = hasAnyPayment();
     var priceFormatted = formatPrice(payment.price || 0);
     var priceStr = priceFormatted + ' ' + (payment.currency || '₽');
@@ -46,12 +45,12 @@
 
     if (hasPaymentLink) {
       if (linkPay) {
-        linkPay.href = '#';
+        if (payment.paymentUrl) {
+          linkPay.href = payment.paymentUrl;
+          linkPay.target = '_blank';
+          linkPay.rel = 'noopener';
+        }
         linkPay.hidden = false;
-      }
-      if (pricingPayNote) {
-        pricingPayNote.textContent = payment.note || '';
-        pricingPayNote.hidden = !payment.note;
       }
       if (priceEl) priceEl.hidden = false;
       if (priceNote) priceNote.hidden = false;
@@ -64,7 +63,6 @@
       if (modalPriceTag) modalPriceTag.hidden = true;
       if (pricingSecure) pricingSecure.hidden = true;
       if (linkPay) linkPay.hidden = true;
-      if (pricingPayNote) pricingPayNote.hidden = true;
       return;
     }
 
@@ -313,9 +311,7 @@
     if (hasAnyPayment() && step2) {
       var modalPayNote = document.getElementById('modalPayNote');
       if (modalPayNote) {
-        modalPayNote.textContent = payment.note
-          ? payment.note + '. После оплаты мы свяжемся с вами в Telegram.'
-          : 'После оплаты мы свяжемся с вами в Telegram.';
+        modalPayNote.textContent = 'После оплаты мы свяжемся с вами в Telegram.';
       }
       step2.hidden = false;
       return;
