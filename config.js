@@ -18,13 +18,6 @@ window.SITE_CONFIG = {
     ctaTitle: 'Оставьте заявку — после оплаты откроется 30-дневный доступ в закрытое сообщество'
   },
 
-  community: {
-    paymentLead: 'После оплаты вы получаете не только участие в игре, но и доступ в закрытое сообщество «Системы» на 1 месяц.',
-    paymentDetails: 'Внутри: анонсы игр, организационная информация, материалы, общение с участниками и возможность включаться в активности сообщества по расписанию.',
-    gameChannel: 'https://t.me/+vy63qWZv3qBiODBi',
-    communityChat: 'https://t.me/+ozP5BB46TAE4ODg6'
-  },
-
   /* Форма регистрации → Telegram-бот (папка bot/, деплой отдельно на Vercel) */
   form: {
     endpoint: 'https://sistema-game-bot.vercel.app/api/register',

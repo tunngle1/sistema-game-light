@@ -572,23 +572,6 @@
     if (yt && links.youtube) yt.href = links.youtube;
   }
 
-  function initCommunityPaymentInfo() {
-    var community = config.community || {};
-    if (!community.paymentLead) return;
-
-    document.querySelectorAll('[data-community-block]').forEach(function (block) {
-      var leadEl = block.querySelector('[data-community-lead]');
-      var detailsEl = block.querySelector('[data-community-details]');
-      var channelEl = block.querySelector('[data-community-channel]');
-      var chatEl = block.querySelector('[data-community-chat]');
-
-      if (leadEl) leadEl.textContent = community.paymentLead;
-      if (detailsEl) detailsEl.textContent = community.paymentDetails || '';
-      if (channelEl && community.gameChannel) channelEl.href = community.gameChannel;
-      if (chatEl && community.communityChat) chatEl.href = community.communityChat;
-    });
-  }
-
   /* ---- Mobile menu ---- */
   var burger = document.getElementById('burger');
   var mobileMenu = document.getElementById('mobileMenu');
@@ -851,7 +834,6 @@
   initEvent();
   renderReviews();
   initLinks();
-  initCommunityPaymentInfo();
   initImages();
   initAboutVideo();
   initEventVideo();
