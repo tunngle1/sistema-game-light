@@ -505,7 +505,27 @@
         <form class="modal__form" id="regForm">
           <label class="field"><span>Имя</span><input type="text" name="name" required placeholder="Ваше имя"></label>
           <label class="field"><span>Телефон</span><input type="tel" name="phone" required placeholder="+7 (___) ___-__-__"></label>
-          <label class="field"><span>Telegram</span><input type="text" name="telegram" placeholder="@username"></label>
+          <div class="field field--messenger">
+            <span>Где с вами связаться</span>
+            <div class="messenger-choice" role="radiogroup" aria-label="Способ связи">
+              <label class="messenger-choice__item">
+                <input type="radio" name="contact_method" value="telegram" checked>
+                <span>Telegram</span>
+              </label>
+              <label class="messenger-choice__item">
+                <input type="radio" name="contact_method" value="max">
+                <span>MAX</span>
+              </label>
+              <label class="messenger-choice__item">
+                <input type="radio" name="contact_method" value="whatsapp">
+                <span>WhatsApp</span>
+              </label>
+            </div>
+          </div>
+          <label class="field" id="contactField">
+            <span id="contactFieldLabel">Telegram</span>
+            <input type="text" name="contact" required placeholder="@username">
+          </label>
           <label class="checkbox">
             <input type="checkbox" name="consent_pd" required>
             <span>Согласен(на) с <a href="privacy.html" target="_blank" rel="noopener">политикой</a>, <a href="legal/consent-pd.html" target="_blank" rel="noopener">обработкой ПДн</a> и <a href="legal/offer.html" target="_blank" rel="noopener">офертой</a>.</span>

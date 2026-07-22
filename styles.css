@@ -1464,6 +1464,58 @@ ul { list-style: none; }
 
 .modal__form .field { margin-bottom: 10px; }
 
+.field--messenger { margin-bottom: 12px; }
+
+.messenger-choice {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.messenger-choice__item {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.messenger-choice__item input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.messenger-choice__item span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  text-align: center;
+  transition: border-color var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.messenger-choice__item input:checked + span {
+  color: var(--text);
+  background: rgba(43, 140, 255, 0.12);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 1px rgba(43, 140, 255, 0.25);
+}
+
+.messenger-choice__item:hover span {
+  border-color: var(--border);
+  color: var(--text);
+}
+
+@media (max-width: 360px) {
+  .messenger-choice { grid-template-columns: 1fr; }
+}
+
 .modal__form .field span {
   margin-bottom: 4px;
   font-size: 11px;

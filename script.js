@@ -241,6 +241,53 @@
   var formConfig = config.form || {};
   var formError = document.getElementById('formError');
 
+  var CONTACT_METHODS = {
+    telegram: {
+      label: 'Telegram',
+      placeholder: '@username',
+      payNote: 'После оплаты мы свяжемся с вами в Telegram.'
+    },
+    max: {
+      label: 'MAX',
+      placeholder: 'Номер или ник в MAX',
+      payNote: 'После оплаты мы свяжемся с вами в MAX.'
+    },
+    whatsapp: {
+      label: 'WhatsApp',
+      placeholder: '+7 (___) ___-__-__',
+      payNote: 'После оплаты мы свяжемся с вами в WhatsApp.'
+    }
+  };
+
+  function getSelectedContactMethod(targetForm) {
+    if (!targetForm) return 'telegram';
+    var checked = targetForm.querySelector('input[name="contact_method"]:checked');
+    return checked ? checked.value : 'telegram';
+  }
+
+  function getContactMethodMeta(method) {
+    return CONTACT_METHODS[method] || CONTACT_METHODS.telegram;
+  }
+
+  function updateContactField() {
+    if (!form) return;
+
+    var method = getSelectedContactMethod(form);
+    var meta = getContactMethodMeta(method);
+    var labelEl = document.getElementById('contactFieldLabel');
+    var inputEl = form.contact;
+
+    if (labelEl) labelEl.textContent = meta.label;
+    if (inputEl) {
+      inputEl.placeholder = meta.placeholder;
+      inputEl.setAttribute('autocomplete', method === 'whatsapp' ? 'tel' : 'off');
+    }
+  }
+
+  function getContactPayNote(method) {
+    return getContactMethodMeta(method).payNote;
+  }
+
   function resetModal() {
     if (step1) step1.hidden = false;
     if (step2) step2.hidden = true;
@@ -248,6 +295,7 @@
     if (form) {
       form.reset();
       form.hidden = false;
+      updateContactField();
     }
     savedFormData = null;
     if (formError) {
@@ -298,7 +346,9 @@
     if (hasAnyPayment() && step2) {
       var modalPayNote = document.getElementById('modalPayNote');
       if (modalPayNote) {
-        modalPayNote.textContent = 'После оплаты мы свяжемся с вами в Telegram.';
+        modalPayNote.textContent = savedFormData
+          ? getContactPayNote(savedFormData.contactMethod)
+          : getContactPayNote('telegram');
       }
       step2.hidden = false;
       return;
@@ -307,6 +357,9 @@
     if (stepDev) {
       var successTitle = formConfig.successTitle || 'Спасибо!';
       var successMessage = formConfig.successMessage || 'Заявка отправлена. Мы свяжемся с вами в ближайшее время.';
+      if (savedFormData && savedFormData.contactMethod) {
+        successMessage = 'Заявка отправлена. Мы свяжемся с вами в ' + getContactMethodMeta(savedFormData.contactMethod).label + ' в ближайшее время.';
+      }
 
       var titleEl = stepDev.querySelector('.modal__title');
       var subtitleEl = stepDev.querySelector('.modal__subtitle');
@@ -326,7 +379,9 @@
     if (savedFormData) {
       if (savedFormData.name) params.set('name', savedFormData.name);
       if (savedFormData.phone) params.set('phone', savedFormData.phone);
-      if (savedFormData.telegram) params.set('telegram', savedFormData.telegram);
+      if (savedFormData.contact) params.set('contact', savedFormData.contact);
+      if (savedFormData.contactMethod) params.set('contact_method', savedFormData.contactMethod);
+      if (savedFormData.contact) params.set('telegram', savedFormData.contact);
     }
 
     if (payment.successUrl) params.set('success_url', payment.successUrl);
@@ -361,7 +416,9 @@
       body: JSON.stringify({
         name: savedFormData.name,
         phone: savedFormData.phone,
-        telegram: savedFormData.telegram,
+        contact: savedFormData.contact,
+        contactMethod: savedFormData.contactMethod,
+        telegram: savedFormData.contact,
         amount: payment.price,
         currency: payment.currency,
         productName: payment.label,
@@ -400,6 +457,11 @@
   }
 
   if (form) {
+    form.querySelectorAll('input[name="contact_method"]').forEach(function (radio) {
+      radio.addEventListener('change', updateContactField);
+    });
+    updateContactField();
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
@@ -408,10 +470,15 @@
         formError.hidden = true;
       }
 
+      var contactMethod = getSelectedContactMethod(form);
+      var contactValue = form.contact.value.trim();
+
       savedFormData = {
         name: form.name.value.trim(),
         phone: form.phone.value.trim(),
-        telegram: form.telegram.value.trim(),
+        contactMethod: contactMethod,
+        contact: contactValue,
+        telegram: contactValue,
         consentMailing: !!(form.consent_mailing && form.consent_mailing.checked)
       };
 
@@ -435,7 +502,9 @@
         body: JSON.stringify({
           name: savedFormData.name,
           phone: savedFormData.phone,
-          telegram: savedFormData.telegram,
+          contact: savedFormData.contact,
+          contactMethod: savedFormData.contactMethod,
+          telegram: savedFormData.contact,
           consentMailing: savedFormData.consentMailing,
           event: {
             date: event.date,
