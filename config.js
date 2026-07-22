@@ -3,11 +3,26 @@
 window.SITE_CONFIG = {
   /* Данные мероприятия */
   event: {
-    date: '15 июля',
-    time: '19:00–22:00',
+    date: '16 августа',
+    time: '15:00',
     city: 'Москва',
     format: 'Офлайн',
-    address: 'Метро Павелецкая/Новокузнецкая, ул. Садовническая 78, стр 5. Ориентир — арка с табличкой «Берегись автомобиля», вход в синюю дверь с табличкой CitrusHall.'
+    address: 'Место сообщим ближе к дате игры',
+    scheduleNote: 'Игра проводится в Москве стабильно раз в месяц'
+  },
+
+  copy: {
+    heroGift: 'После оплаты вы сразу получаете 30 дней доступа в закрытое сообщество',
+    heroCta: 'Записаться на игру и получить доступ в сообщество',
+    pricingDesc: 'Оставьте заявку — после оплаты откроется 30-дневный доступ в закрытое сообщество.',
+    ctaTitle: 'Оставьте заявку — после оплаты откроется 30-дневный доступ в закрытое сообщество'
+  },
+
+  community: {
+    paymentLead: 'После оплаты вы получаете не только участие в игре, но и доступ в закрытое сообщество «Системы» на 1 месяц.',
+    paymentDetails: 'Внутри: анонсы игр, организационная информация, материалы, общение с участниками и возможность включаться в активности сообщества по расписанию.',
+    gameChannel: 'https://t.me/+vy63qWZv3qBiODBi',
+    communityChat: 'https://t.me/+ozP5BB46TAE4ODg6'
   },
 
   /* Форма регистрации → Telegram-бот (папка bot/, деплой отдельно на Vercel) */
@@ -17,13 +32,13 @@ window.SITE_CONFIG = {
     successMessage: 'Заявка отправлена. Сейчас откроется страница оплаты.'
   },
 
-  /* Оплата — GetPlatinum (статическая ссылка на 2 900 ₽) */
+  /* Оплата — GetPlatinum (статическая ссылка) */
   payment: {
     enabled: true,
     useApi: false,
     price: 2900,
     currency: '₽',
-    label: 'Участие в игре «Система» · 15 июля · Москва',
+    label: 'Участие в игре «Система» · 16 августа · Москва',
     paymentUrl: 'https://shkarov-dmitrii.getplatinum.ru/payment/DbPtgtz',
     successUrl: 'https://shkarovsystem.ru/',
     failUrl: 'https://shkarovsystem.ru/'
@@ -54,11 +69,33 @@ window.SITE_CONFIG = {
     pepper: 'C6NQTOzALh0wXHSTju6ZRA'
   },
 
-  /* ФОТО С ИГРЫ — секция #event-video */
+  /* КАК ПРОХОДИТ ИГРА — секция #event-video */
   eventVideo: {
     title: 'Как проходит игра «Система»',
-    subtitle: 'Офлайн в Москве · 15 июля, 19:00–22:00. Живой разбор — здоровье, отношения, деньги.',
-    poster: 'assets/game-session.jpg'
+    subtitle: '2,5 часа живого разбора — здоровье, отношения, деньги. Увидь формат до регистрации.',
+    videos: [
+      {
+        title: 'Как проходит игра',
+        thumbnail: 'https://pic.rtbcdn.ru/video/2026-07-22/ae/a7/aea7cddf8a18a083f3800c416f1f27a8.jpg',
+        videoUrl: 'https://rutube.ru/video/private/7746492801101d5e09f91f8eb6a177cd/?p=aR97C3Ow9QTMQXmisKe6KQ',
+        videoId: '7746492801101d5e09f91f8eb6a177cd',
+        pepper: 'aR97C3Ow9QTMQXmisKe6KQ'
+      },
+      {
+        title: 'Как проходит игра',
+        thumbnail: 'https://pic.rtbcdn.ru/video/2026-07-22/49/de/49deed85977793670a2037b06dcca906.jpg',
+        videoUrl: 'https://rutube.ru/video/private/84a515121ac796b0bfc5762c14cb3d93/?p=aZzVEHI0dtAo9gyBC_h41A',
+        videoId: '84a515121ac796b0bfc5762c14cb3d93',
+        pepper: 'aZzVEHI0dtAo9gyBC_h41A'
+      },
+      {
+        title: 'Как проходит игра',
+        thumbnail: 'https://pic.rtbcdn.ru/video/2026-07-22/d5/55/d5552d7608143fdf52cd7eca0e14a822.jpg',
+        videoUrl: 'https://rutube.ru/video/private/b1271dac766b82337978c7d414c614e6/?p=bEnJqtLk6wxHgIlIh2mMOQ',
+        videoId: 'b1271dac766b82337978c7d414c614e6',
+        pepper: 'bEnJqtLk6wxHgIlIh2mMOQ'
+      }
+    ]
   },
 
   /* ВИДЕООТЗЫВЫ — секция #reviews (Rutube embed) */

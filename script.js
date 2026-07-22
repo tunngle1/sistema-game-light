@@ -51,8 +51,6 @@
       return;
     }
 
-    var priceStr = formatPrice(payment.price || 0) + ' ' + (payment.currency || '₽');
-
     var els = {
       priceDisplay: document.getElementById('priceDisplay'),
       currencyDisplay: document.getElementById('currencyDisplay'),
@@ -147,7 +145,7 @@
     grid.querySelectorAll('.review-card').forEach(function (card) {
       card.addEventListener('click', function () {
         var idx = parseInt(card.getAttribute('data-video-index'), 10);
-        openVideoModal(reviews[idx]);
+        openVideoModal(reviews[idx], { shorts: true });
       });
     });
 
@@ -195,21 +193,27 @@
   var videoFrame = document.getElementById('videoFrame');
   var videoInfo = document.getElementById('videoInfo');
 
-  function openVideoModal(review) {
+  function openVideoModal(review, opts) {
+    opts = opts || {};
     if (!review || !videoModal) return;
 
     if (!review.videoUrl) {
       videoFrame.src = '';
-      videoInfo.innerHTML = '<strong>' + review.name + '</strong> — видео скоро будет добавлено';
+      videoInfo.innerHTML = '<strong>' + (review.name || review.title || 'Видео') + '</strong> — видео скоро будет добавлено';
       videoModal.classList.add('open');
       videoModal.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
       return;
     }
 
-    videoFrame.src = buildVideoSrc(review.videoUrl);
-    videoInfo.innerHTML = '<strong>' + review.name + '</strong> — ' + review.role;
-    videoModal.classList.add('modal--shorts', 'open');
+    videoFrame.src = buildVideoSrc(review.videoUrl, false, review.videoId, review.pepper);
+    var label = review.name || review.title || 'Видео';
+    var role = review.role || '';
+    videoInfo.innerHTML = role
+      ? '<strong>' + label + '</strong> — ' + role
+      : '<strong>' + label + '</strong>';
+    if (opts.shorts) videoModal.classList.add('modal--shorts');
+    videoModal.classList.add('open');
     videoModal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
   }
@@ -288,6 +292,15 @@
 
     if (payment.enabled && hasAnyPayment()) {
       goToPayment();
+      return;
+    }
+
+    if (hasAnyPayment() && step2) {
+      var modalPayNote = document.getElementById('modalPayNote');
+      if (modalPayNote) {
+        modalPayNote.textContent = 'После оплаты мы свяжемся с вами в Telegram.';
+      }
+      step2.hidden = false;
       return;
     }
 
@@ -377,14 +390,6 @@
         savedFormData.dealId = result.data.dealId;
         window.location.href = result.data.formUrl;
         return true;
-      })
-      .catch(function (err) {
-        var staticUrl = buildPaymentUrl();
-        if (staticUrl) {
-          window.location.href = staticUrl;
-          return true;
-        }
-        throw err;
       });
   }
 
@@ -497,6 +502,23 @@
     if (yt && links.youtube) yt.href = links.youtube;
   }
 
+  function initCommunityPaymentInfo() {
+    var community = config.community || {};
+    if (!community.paymentLead) return;
+
+    document.querySelectorAll('[data-community-block]').forEach(function (block) {
+      var leadEl = block.querySelector('[data-community-lead]');
+      var detailsEl = block.querySelector('[data-community-details]');
+      var channelEl = block.querySelector('[data-community-channel]');
+      var chatEl = block.querySelector('[data-community-chat]');
+
+      if (leadEl) leadEl.textContent = community.paymentLead;
+      if (detailsEl) detailsEl.textContent = community.paymentDetails || '';
+      if (channelEl && community.gameChannel) channelEl.href = community.gameChannel;
+      if (chatEl && community.communityChat) chatEl.href = community.communityChat;
+    });
+  }
+
   /* ---- Mobile menu ---- */
   var burger = document.getElementById('burger');
   var mobileMenu = document.getElementById('mobileMenu');
@@ -569,8 +591,8 @@
   function initEvent() {
     if (!event.date) return;
 
+    var copy = config.copy || {};
     var dateCity = event.date + (event.city ? ' · ' + event.city : '');
-    var timeFormat = [event.time, event.format].filter(Boolean).join(' · ');
 
     var headerDate = document.getElementById('headerDate');
     if (headerDate) {
@@ -580,17 +602,29 @@
       headerDate.appendChild(document.createTextNode(' ' + dateCity));
     }
 
+    var heroGift = document.getElementById('heroGift');
+    if (heroGift && copy.heroGift) {
+      heroGift.innerHTML = copy.heroGift.replace('30 дней доступа', '<strong>30 дней доступа</strong>');
+    }
+
     var heroMeta = document.getElementById('heroMeta');
     if (heroMeta) {
       var items = [event.date, event.time];
       if (event.address) items.push(event.address);
-      else if (event.city && event.format) items.push(event.city + ' · ' + event.format);
-      else if (event.city || event.format) items.push(event.city || event.format);
-      if (event.address && event.format) items.push(event.format);
+      if (event.format) items.push(event.format);
       heroMeta.innerHTML = items.map(function (item) {
         return '<span class="hero__meta-item">' + item + '</span>';
       }).join('');
     }
+
+    var scheduleNote = document.getElementById('scheduleNote');
+    if (scheduleNote && event.scheduleNote) scheduleNote.textContent = event.scheduleNote;
+
+    var heroCtaBtn = document.getElementById('heroCtaBtn');
+    if (heroCtaBtn && copy.heroCta) heroCtaBtn.textContent = copy.heroCta;
+
+    var pricingCtaBtn = document.getElementById('pricingCtaBtn');
+    if (pricingCtaBtn && copy.heroCta) pricingCtaBtn.textContent = copy.heroCta;
 
     var ctaDate = document.getElementById('ctaDate');
     if (ctaDate) ctaDate.textContent = event.date;
@@ -598,30 +632,31 @@
     var ctaSeats = document.getElementById('ctaSeats');
     if (ctaSeats) {
       var ctaParts = [event.time, event.format].filter(Boolean);
-      if (event.address) ctaParts.unshift(event.address);
-      else if (event.city) ctaParts.unshift(event.city);
+      if (event.city) ctaParts.unshift(event.city);
       ctaSeats.textContent = ctaParts.join(' · ');
     }
 
+    var ctaTitle = document.querySelector('.cta__title');
+    if (ctaTitle && copy.ctaTitle) ctaTitle.textContent = copy.ctaTitle;
+
     var modalSubtitle = document.getElementById('modalSubtitle');
     if (modalSubtitle) {
-      var parts = ['«Система»', event.date, event.city, event.time ? event.time.split('–')[0] : ''].filter(Boolean);
+      var parts = ['«Система»', event.date, event.city, event.time].filter(Boolean);
       modalSubtitle.textContent = parts.join(' · ');
     }
 
     var pricingDesc = document.getElementById('pricingDesc');
-    if (pricingDesc && event.city) {
-      var location = event.address || event.city;
-      var desc = 'Места ограничены. ' + event.format + ' — ' + location + ', ' + event.date + ', ' + event.time + '.';
-      pricingDesc.textContent = payment.enabled
-        ? desc + ' После регистрации — оплата и подтверждение участия.'
-        : desc + ' Оставьте заявку — мы свяжемся с вами и подтвердим участие.';
+    if (pricingDesc) {
+      var desc = copy.pricingDesc || 'Оставьте заявку — после оплаты откроется 30-дневный доступ в закрытое сообщество.';
+      pricingDesc.textContent = desc + ' ' + event.date + ', ' + event.time + ' · ' + event.city + '.';
     }
 
     var pricingLocation = document.getElementById('pricingLocation');
     if (pricingLocation && event.address) pricingLocation.textContent = event.address;
 
-    document.title = document.title.replace(/· \d+ июля[^·]*/, '· ' + event.date + (event.city ? ' · ' + event.city : ''));
+    if (document.title.indexOf('Игра «Система»') !== -1) {
+      document.title = 'Игра «Система» — Дмитрий Шкаров · ' + event.date + ' · ' + (event.city || 'Москва');
+    }
   }
 
   /* ---- About video (секция #about) ---- */
@@ -661,20 +696,67 @@
     }
   }
 
-  /* ---- Event photo (секция #event-video) ---- */
+  /* ---- Event videos (секция #event-video) ---- */
   function initEventVideo() {
     var ev = config.eventVideo || {};
-    var images = config.images || {};
-
     var titleEl = document.getElementById('eventVideoTitle');
     var subtitleEl = document.getElementById('eventVideoSubtitle');
-    var posterImg = document.getElementById('eventVideoPosterImg');
+    var clipsEl = document.getElementById('eventVideoClips');
+    var videos = ev.videos || [];
 
     if (titleEl && ev.title) titleEl.textContent = ev.title;
     if (subtitleEl && ev.subtitle) subtitleEl.textContent = ev.subtitle;
+    if (!clipsEl || !videos.length) return;
 
-    var posterSrc = ev.poster || images.gameSession || 'assets/game-session.jpg';
-    if (posterImg) posterImg.src = posterSrc;
+    clipsEl.innerHTML = videos.map(function (video, i) {
+      return (
+        '<button class="event-video__clip" type="button" data-clip-index="' + i + '" aria-label="Смотреть: ' + (video.title || 'видео ' + (i + 1)) + '">' +
+          (video.thumbnail
+            ? '<img class="event-video__clip-thumb" src="' + video.thumbnail + '" alt="" loading="lazy">'
+            : '<span class="event-video__clip-placeholder"></span>') +
+          '<span class="event-video__clip-play">' +
+            '<svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>' +
+          '</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    clipsEl.querySelectorAll('.event-video__clip').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var idx = parseInt(btn.getAttribute('data-clip-index'), 10);
+        openVideoModal(videos[idx], { shorts: true });
+      });
+    });
+
+    videos.forEach(function (video, i) {
+      if (video.thumbnail || !video.videoId) return;
+
+      var apiUrl = 'https://rutube.ru/api/video/' + video.videoId + '/';
+      if (video.pepper) apiUrl += '?p=' + video.pepper;
+
+      fetch(apiUrl)
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          if (!data.thumbnail_url) return;
+          var btn = clipsEl.querySelector('.event-video__clip[data-clip-index="' + i + '"]');
+          if (!btn) return;
+          var existing = btn.querySelector('.event-video__clip-thumb');
+          if (existing) {
+            existing.src = data.thumbnail_url;
+          } else {
+            var placeholder = btn.querySelector('.event-video__clip-placeholder');
+            if (placeholder) placeholder.remove();
+            var img = document.createElement('img');
+            img.className = 'event-video__clip-thumb';
+            img.src = data.thumbnail_url;
+            img.alt = '';
+            img.loading = 'lazy';
+            btn.insertBefore(img, btn.firstChild);
+          }
+          if (data.title && !video.title) video.title = data.title;
+        })
+        .catch(function () {});
+    });
   }
 
   /* ---- Images from config ---- */
@@ -697,6 +779,7 @@
   initEvent();
   renderReviews();
   initLinks();
+  initCommunityPaymentInfo();
   initImages();
   initAboutVideo();
   initEventVideo();
