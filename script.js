@@ -339,11 +339,6 @@
     if (step2) step2.hidden = true;
     if (stepDev) stepDev.hidden = true;
 
-    if (formConfig.redirectUrl) {
-      window.location.href = formConfig.redirectUrl;
-      return;
-    }
-
     if (payment.enabled && hasAnyPayment()) {
       goToPayment();
       return;
@@ -530,12 +525,6 @@
         .then(function (result) {
           if (!result.ok || !result.data.ok) {
             throw new Error(result.data.error || 'submit_failed');
-          }
-
-          if (formConfig.redirectUrl) {
-            if (submitBtn) submitBtn.textContent = 'Переход в Telegram…';
-            window.location.href = formConfig.redirectUrl;
-            return;
           }
 
           if (payment.enabled && hasAnyPayment()) {

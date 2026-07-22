@@ -21,9 +21,8 @@ window.SITE_CONFIG = {
   /* Форма регистрации → Telegram-бот (папка bot/, деплой отдельно на Vercel) */
   form: {
     endpoint: 'https://sistema-game-bot.vercel.app/api/register',
-    redirectUrl: 'https://t.me/c/3777318055/307',
     successTitle: 'Спасибо!',
-    successMessage: 'Заявка отправлена. Сейчас откроется Telegram-бот.'
+    successMessage: 'Заявка отправлена. Сейчас откроется страница оплаты.'
   },
 
   /* Оплата — GetPlatinum (статическая ссылка) */
