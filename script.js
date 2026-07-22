@@ -306,6 +306,7 @@
 
   function openModal() {
     resetModal();
+    if (typeof closeMobileMenu === 'function') closeMobileMenu();
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -592,17 +593,19 @@
   var burger = document.getElementById('burger');
   var mobileMenu = document.getElementById('mobileMenu');
 
+  function closeMobileMenu() {
+    if (burger) burger.classList.remove('active');
+    if (mobileMenu) mobileMenu.classList.remove('open');
+  }
+
   if (burger && mobileMenu) {
     burger.addEventListener('click', function () {
       burger.classList.toggle('active');
       mobileMenu.classList.toggle('open');
     });
 
-    mobileMenu.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        burger.classList.remove('active');
-        mobileMenu.classList.remove('open');
-      });
+    mobileMenu.querySelectorAll('a, [data-modal-open]').forEach(function (link) {
+      link.addEventListener('click', closeMobileMenu);
     });
   }
 
