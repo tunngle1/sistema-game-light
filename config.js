@@ -32,7 +32,7 @@ window.SITE_CONFIG = {
     price: 2900,
     currency: '₽',
     label: 'Участие в игре «Система» · 19 сентября · Москва',
-    paymentUrl: 'https://shkarov-dmitrii.getplatinum.ru/payment/DbPtgtz',
+    paymentUrl: 'https://shkarov-dmitrii.getplatinum.ru/payment/WXKq3Y1',
     successUrl: 'https://shkarovsystem.ru/',
     failUrl: 'https://shkarovsystem.ru/'
   },
