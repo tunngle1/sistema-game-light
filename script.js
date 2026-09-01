@@ -13,6 +13,7 @@
   }
 
   function getInitPaymentEndpoint() {
+    if (payment.paymentUrl && payment.useApi !== true) return '';
     if (payment.initEndpoint) return payment.initEndpoint;
     if (formConfig.endpoint && /\/api\/register\/?$/.test(formConfig.endpoint)) {
       return formConfig.endpoint.replace(/\/register\/?$/, '/init-payment');

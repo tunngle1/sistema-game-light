@@ -16,7 +16,7 @@ window.SITE_CONFIG = {
     price: 5990,
     currency: '₽',
     label: 'Курс «Код систем» · 30 дней',
-    paymentUrl: '',
+    paymentUrl: 'https://knowla.tech/pay/subscription/cmszzpxhp003dspy9a4phyw5o',
     successUrl: window.location.origin + '/kod-sistem.html?paid=1',
     failUrl: window.location.origin + '/kod-sistem.html'
   },

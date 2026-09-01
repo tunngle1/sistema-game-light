@@ -22,20 +22,19 @@ window.SITE_CONFIG = {
   form: {
     endpoint: 'https://sistema-game-bot.vercel.app/api/register',
     successTitle: 'Спасибо!',
-    successMessage: 'Заявка отправлена. Мы свяжемся с вами в Telegram в ближайшее время и подтвердим участие.'
+    successMessage: 'Заявка отправлена. Сейчас откроется страница оплаты.'
   },
 
-  /* Оплата — GetPlatinum через API бота */
+  /* Оплата — GetPlatinum (статическая ссылка) */
   payment: {
-    enabled: false,
+    enabled: true,
+    useApi: false,
     price: 2900,
     currency: '₽',
     label: 'Участие в игре «Система» · 16 августа · Москва',
-    paymentUrl: '',
-    initEndpoint: 'https://sistema-game-bot.vercel.app/api/init-payment',
-    successUrl: 'https://sistema-game-vert.vercel.app/',
-    failUrl: 'https://sistema-game-vert.vercel.app/',
-    note: 'Тестовая оплата'
+    paymentUrl: 'https://shkarov-dmitrii.getplatinum.ru/payment/DbPtgtz',
+    successUrl: 'https://shkarovsystem.ru/',
+    failUrl: 'https://shkarovsystem.ru/'
   },
 
   /* Ссылки */
