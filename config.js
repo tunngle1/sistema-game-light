@@ -3,7 +3,7 @@
 window.SITE_CONFIG = {
   /* Данные мероприятия */
   event: {
-    date: '16 августа',
+    date: '19 сентября',
     time: '15:00',
     city: 'Москва',
     format: 'Офлайн',
@@ -31,7 +31,7 @@ window.SITE_CONFIG = {
     useApi: false,
     price: 2900,
     currency: '₽',
-    label: 'Участие в игре «Система» · 16 августа · Москва',
+    label: 'Участие в игре «Система» · 19 сентября · Москва',
     paymentUrl: 'https://shkarov-dmitrii.getplatinum.ru/payment/DbPtgtz',
     successUrl: 'https://shkarovsystem.ru/',
     failUrl: 'https://shkarovsystem.ru/'
